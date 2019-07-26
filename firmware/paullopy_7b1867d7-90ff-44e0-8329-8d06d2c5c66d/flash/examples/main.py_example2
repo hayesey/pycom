@@ -1,0 +1,95 @@
+'''
+This is an example main.py file for Pybytes
+This example requires using a Pybytes enabled firmware and valid configuration
+This example requires Pybytes auto-start is disabled!
+Rename pybytes_project.json.example to pybytes_project.json and upload with this example
+This way you can control under which conditions Pybytes is loaded
+This example uses only wifi, see Pybytes main.py for other connection methods
+'''
+
+import machine
+if machine.reset_cause() == machine.PWRON_RESET or machine.reset_cause() == machine.HARD_RESET:
+    print("This code is executed on PowerON or if the reset button is pressed.")
+
+else:
+    if (len(pybytes_config['username']) > 4 and len(pybytes_config['device_id']) >= 36 and len(pybytes_config['server']) > 4):
+        from _pybytes import Pybytes
+        pybytes = Pybytes(pybytes_config)
+        if pybytes.connect_wifi():
+
+            print("Connected to WiFi, sending messages...")
+
+            # SEND PING
+            pybytes.send_ping_message()
+
+            # SEND DEVICE'S INFORMATIONS
+            # The INFO message should always be sent, otherwise Pybytes could not be aware
+            # of some important informations regarding this device, like its firmware version.
+            pybytes.send_info_message()
+
+            # ENABLE TERMINAL
+            # This should always be enabled if you're using a firmware that is compatible with pybytes terminal.
+            # The terminal messages will use the virtual pin (or signal) 255.
+            pybytes.enable_terminal()
+
+            ''' Add other code here to send data to Pybytes. '''
+
+            # SEND SIGNAL
+            # You can currently send Strings, Int32, Float32 and Tuples to pybytes using this method.
+            # pybytes.send_signal(signalNumber, value)
+
+            # SEND SENSOR DATA THROUGH SIGNALS
+            # # If you use a Pysense, some libraries are necessary to access its sensors
+            # # you can find them here: https://github.com/pycom/pycom-libraries
+            #
+            # # Include the libraries in the lib folder then import the ones you want to use here:
+            # from SI7006A20 import SI7006A20
+            # si = SI7006A20()
+            # from LTR329ALS01 import LTR329ALS01
+            # ltr = LTR329ALS01()
+            #
+            # # Import what is necessary to create a thread
+            # import _thread
+            # from time import sleep
+            # from machine import Pin
+            #
+            # # Define your thread's behaviour, here it's a loop sending sensors data every 10 seconds
+            # def send_env_data():
+            #     while (pybytes):
+            #         pybytes.send_signal(1, si.humidity())
+            #         pybytes.send_signal(2, si.temperature())
+            #         pybytes.send_signal(3, ltr.light());
+            #         sleep(10)
+            #
+            # # Start your thread
+            # _thread.start_new_thread(send_env_data, ())
+
+            # SET THE BATTERY LEVEL
+            # pybytes.send_battery_level(23)
+
+            # SEND DIGITAL VALUE
+            # pybytes.send_digital_pin_value(False, 12, Pin.PULL_UP)
+
+            # SEND ANALOG VALUE
+            # pybytes.send_analog_pin_value(False, 13)
+
+            # REGISTER PERIODICAL DIGIAL VALUE SEND
+            # pybytes.register_periodical_digital_pin_publish(False, PIN_NUMBER, Pin.PULL_UP, INTERVAL_SECONDS)
+
+            # REGISTER PERIODICAL ANALOG VALUE SEND
+            # pybytes.register_periodical_analog_pin_publish(False, PIN_NUMBER, INTERVAL_SECONDS)
+
+            # CUSTOM METHOD EXAMPLE
+            # def custom_print(params):
+            #     print("Custom method called")
+            #     return [255, 20]
+            # pybytes.add_custom_method(0, custom_print)
+
+        else:
+            print("Failed to connect to Pybytes! Invalid credentials or network issues?")
+        # shutdown Pybytes in case users want to go to deepsleep
+        pybytes.disconnect()
+        # Using this method here will interrupt the connection to pybytes right after your custom code is executed once.
+        # Comment it if you want to keep the connection up for a longer period.
+    else:
+        print("Could not load Pybytes configuration!")

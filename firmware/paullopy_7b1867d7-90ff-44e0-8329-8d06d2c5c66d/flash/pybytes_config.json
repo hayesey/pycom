@@ -1,0 +1,42 @@
+{
+  "ota_server": {
+    "port": 443,
+    "domain": "software.pycom.io"
+  },
+  "lora": {
+    "otaa": {
+      "app_key": "60ac01ad867eb7a690ba9b5bfa5c0a21",
+      "app_eui": "70B3D57ED000AFA1",
+      "app_device_eui": "eb6b322c30d85174"
+    },
+    "abp": {
+      "app_skey": "f3f0e5a0e017698f9dba90666f2f3129",
+      "nwk_skey": "5f0c42836a5503a00ebc58bd4d24d5b1",
+      "dev_addr": "26011f12"
+    }
+  },
+  "username": "paul@alliot.co.uk",
+  "device_id": "7b1867d7-90ff-44e0-8329-8d06d2c5c66d",
+  "server": "mqtt.pybytes.pycom.io",
+  "ssl": true,
+  "ssl_params": {
+    "ca_certs": "/flash/cert/pycom-ca.pem"
+  },
+  "sigfox": {
+    "RCZ": 1
+  },
+  "lte": {
+    "carrier": "standard",
+    "cid": 1,
+    "band": 20,
+    "apn": "nb.inetd.gdsp",
+    "reset": true,
+    "type": "IP"
+  },
+  "wifi": {},
+  "network_preferences": [
+    "lora_otaa"
+  ],
+  "pybytes_autostart": true,
+  "connection_watchdog": true
+}
