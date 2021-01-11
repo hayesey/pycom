@@ -22,7 +22,7 @@ for i in range(10):
 
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.settimeout(20)
-s.connect(("94.11.172.107", 6789))
+s.connect(("3.9.21.110", 6789))
 result = s.send(b'helloworld')
 print("Sent bytes: "+str(result))
 

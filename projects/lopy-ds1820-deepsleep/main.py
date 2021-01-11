@@ -5,9 +5,10 @@ import binascii
 import struct
 import onewire
 from machine import Pin
-#import pycom
+import pycom
 #from deepsleep import DeepSleep
 #import deepsleep
+pycom.heartbeat(False)
 ds = onewire.DS18X20(onewire.OneWire(Pin('P23')))
 # Initialize LoRa in LORAWAN mode.
 lora = LoRa(mode=LoRa.LORAWAN)
@@ -41,7 +42,7 @@ data = s.recv(64)
 if data:
     print("recvd data: {}".format(data))
     if data == b'\x01':
-        pycom.rgbled(0x007f00)
+        pycom.rgbled(0x000f00)
     elif data == b'\x00':
         pycom.rgbled(0x000000)
 
